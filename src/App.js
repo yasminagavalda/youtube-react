@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import VideoList from './Components/VideoList'
+import SearchForm from './Components/SearchForm'
 import axios from 'axios'
 
 
@@ -9,11 +10,8 @@ class App extends Component {
 		super(props)
 
 		this.state = {
-			inputValue: "",
 			videos: []
 		}
-
-		this.search()
 	}
 
 	search(query) {
@@ -34,22 +32,17 @@ class App extends Component {
 	  promise.catch(error => console.log(error))
 	}
 
+	
   render() {
   	return (
   		<div>
-	  		<input 
-	  			value={this.state.inputValue} 
-	  			onChange={(event) => {
-	  				console.log(event)
-	  				this.setState( { inputValue: event.target.value} )}}/> 
-	  		<button 
-	  			onClick={() => this.search(this.state.inputValue) }>
-	  			Search
-	  		</button>
+	  		<SearchForm onSearch={(value) => {this.search(value)}}/>
 		    <VideoList videos={this.state.videos} />
 	    </div>
 	  )
-  }
+
+	}
+  
   
 }
 
