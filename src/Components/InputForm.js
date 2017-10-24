@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class SearchForm extends Component {
+class InputForm extends Component {
 
 	constructor(props) {
 		super(props)
@@ -11,24 +11,25 @@ class SearchForm extends Component {
 	}
 
 	search(value) {
-		this.props.onSearch(value)
+		this.props.onSend(value)
 	}
 
 	render() {
 		return (
-			<div>
+			<form
+				onSubmit={ (event) => {
+					event.preventDefault()
+					this.search(this.state.inputValue) 
+				}}>
 				<input 
+					placeholder={this.props.inputMessage}
 	  			value={this.state.inputValue} 
 	  			onChange={(event) => {
-	  				console.log(event)
 	  				this.setState( { inputValue: event.target.value} )}}/> 
-	  		<button 
-	  			onClick={() => this.search(this.state.inputValue) }>
-	  			Search
-	  		</button>
-	  	</div>
+	  		<button>{this.props.buttonTitle}</button>
+	  	</form>
 		)
 	}
 }
 
-	export default SearchForm
+	export default InputForm
