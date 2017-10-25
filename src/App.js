@@ -12,7 +12,8 @@ class App extends Component {
 		super(props)
 
 		this.state = {
-			videos: []
+			videos: [],
+			loading: false
 		}
 	}
 
@@ -21,6 +22,8 @@ class App extends Component {
 	  const url = `https://www.googleapis.com/youtube/v3/search?maxResults=10&part=snippet&q=${query}&key=AIzaSyCiOQBjMZ8vE8l07wF5F96XgU8cRG2tbGk`
 
 	  const promise = axios.get(url)
+
+	  this.setState({loading: true})
 	  
 	  promise.then(response => {
 	    const items = response.data.items
@@ -35,7 +38,7 @@ class App extends Component {
 			    }
   			))
 
-	    this.setState( { videos: videos } )
+	    this.setState( { videos: videos, loading: false } )
 	  })
 
 	  promise.catch(error => console.log(error))
@@ -55,7 +58,14 @@ class App extends Component {
 	  					}} />
 	  				} />
 	  				<Switch>
-	  					<Route exact path='/' render={() => <VideoList videos={this.state.videos} />} />
+	  					<Route exact path='/' render={() => {
+
+	  						if (this.state.loading) {
+	  							return <div className="loading-view"><span className="loading">Loading...</span></div>
+	  						} else {
+	  							return <VideoList videos={this.state.videos} />}
+	  						}} />
+
 	  					<Route path='/detail/:id' component={VideoPlayer} />
 	  				</Switch>
   				</div>
