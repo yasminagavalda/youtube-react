@@ -3,6 +3,7 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import VideoList from './Components/VideoList'
 import MenuBar from './Components/MenuBar'
 import VideoPlayer from './Components/VideoPlayer'
+import YoutubeUtil from './utils/YoutubeUtil'
 import axios from 'axios'
 
 
@@ -20,24 +21,15 @@ class App extends Component {
 	search(query) {
 
 	  const url = `https://www.googleapis.com/youtube/v3/search?maxResults=10&part=snippet&q=${query}&key=AIzaSyCiOQBjMZ8vE8l07wF5F96XgU8cRG2tbGk`
-	 
+
 
 	  const promise = axios.get(url)
 
 	  this.setState({loading: true})
 	  
 	  promise.then(response => {
-	    const items = response.data.items
 
-	    const videos = items
-	    	.filter(v => v.id.kind === "youtube#video")
-	    	.map(v => (
-			    {
-			      id: v.id.videoId,
-			      title: v.snippet.title,
-			      image: v.snippet.thumbnails.medium.url
-			    }
-  			))
+	    const videos = YoutubeUtil.extractVideos(response.data)
 
 	    this.setState( { videos: videos, loading: false } )
 	  })
