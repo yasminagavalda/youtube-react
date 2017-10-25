@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import VideoList from './Components/VideoList'
 import MenuBar from './Components/MenuBar'
+import VideoPlayer from './Components/VideoPlayer'
 import axios from 'axios'
 
 
@@ -25,6 +27,13 @@ class App extends Component {
 
 	    const videos = items
 	    	.filter(v => v.id.kind === "youtube#video")
+	    	.map(v => (
+			    {
+			      id: v.id.videoId,
+			      title: v.snippet.title,
+			      image: v.snippet.thumbnails.medium.url
+			    }
+  			))
 
 	    this.setState( { videos: videos } )
 	  })
@@ -37,7 +46,14 @@ class App extends Component {
   	return (
   		<div>
   			<MenuBar onSearch={(value) => {this.search(value)}}/>
-		    <VideoList videos={this.state.videos} />
+
+  			<BrowserRouter>
+  				<Switch>
+  					<Route exact path='/' render={() => <VideoList videos={this.state.videos} />} />
+  					<Route path='/detail/:id' component={VideoPlayer} />
+  				</Switch>
+  			</BrowserRouter>
+		    
 	    </div>
 	  )
 
