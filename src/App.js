@@ -45,13 +45,20 @@ class App extends Component {
   render() {
   	return (
   		<div>
-  			<MenuBar onSearch={(value) => {this.search(value)}}/>
 
   			<BrowserRouter>
-  				<Switch>
-  					<Route exact path='/' render={() => <VideoList videos={this.state.videos} />} />
-  					<Route path='/detail/:id' component={VideoPlayer} />
-  				</Switch>
+  				<div>
+	  				<Route render={(context) => 
+	  					<MenuBar onSearch={(value) => { 
+	  						this.search(value)
+	  						context.history.push('/') 
+	  					}} />
+	  				} />
+	  				<Switch>
+	  					<Route exact path='/' render={() => <VideoList videos={this.state.videos} />} />
+	  					<Route path='/detail/:id' component={VideoPlayer} />
+	  				</Switch>
+  				</div>
   			</BrowserRouter>
 		    
 	    </div>
