@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VideoItem renders correctly 1`] = `
+<div>
+  <div>
+    Pulp - Common People
+  </div>
+  <img
+    alt="Pulp - Common People"
+    src="https://i.ytimg.com/vi/yuTMWgOduFM/mqdefault.jpg"
+  />
+</div>
+`;
